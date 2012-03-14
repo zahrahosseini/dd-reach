@@ -122,7 +122,8 @@ public class RdProgramPoint {
 			Value v2 = value.getValue();
 			// TODO: find better solution to check equality of values/variables in Jimple!
 			if(v1.toString().equals(v2.toString())
-					|| AliasTool.v(AliasTool.SPARK).mustAlias(this._unit, new RdValue(v1,this._method), value) ){ // check aliases 
+					|| AliasTool.v().mustAlias(this, new RdValue(v1,this._method), value) ){ // check aliases 
+				
 				if( this.equals(def) ) { // the same value, the same statement
 					killed = false;
 				} else {

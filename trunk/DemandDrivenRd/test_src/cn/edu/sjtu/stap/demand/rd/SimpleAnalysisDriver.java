@@ -26,7 +26,7 @@ public class SimpleAnalysisDriver {
 		// In this simple driver, we just manually specify the config here.
 		AnalysisConfig config = AnalysisConfig.getInstance();
 		config.setMethodSig("<cn.edu.sjtu.stap.autolog.dataflow.rd.ExampleChpFive5: void proc2(int)>");
-		config.setLineNum("33");
+		config.setLineNum(33);
 		config.setVarName("x");
 		config.setVarType("int");
 		Debug.DEBUG = false;

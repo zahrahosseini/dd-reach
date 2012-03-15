@@ -1,5 +1,7 @@
 package cn.edu.sjtu.stap;
 
+
+
 /**
  * This class contains the configurations
  * which are global to the whole analysis.
@@ -29,7 +31,7 @@ public class AnalysisConfig {
 	// the Soot-style method signature of the slicing criterion
 	private String methodSig;
 	// the line number of the slicing criterion statement
-	private String lineNum;
+	private int lineNum;
 	// the variable name of the slicing criterion
 	private String varName;
 	// the type of the variable of the slicing criterion
@@ -48,11 +50,11 @@ public class AnalysisConfig {
 		this.methodSig = methodSig;
 	}
 
-	public String getLineNum() {
+	public int getLineNum() {
 		return lineNum;
 	}
 
-	public void setLineNum(String lineNum) {
+	public void setLineNum(int lineNum) {
 		this.lineNum = lineNum;
 	}
 

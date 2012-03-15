@@ -31,9 +31,9 @@ public class TestRDTransformer extends SceneTransformer {
 	private ArrayList<String> methodList = null;
 	private ArrayList<Integer> lineNumList = null;
 	
-	private static String PROC1 = "<cn.edu.sjtu.stap.autolog.dataflow.rd.ExampleChpFive5withAlias: void proc1()>";
-	private static String PROC2 = "<cn.edu.sjtu.stap.autolog.dataflow.rd.ExampleChpFive5withAlias: void proc2(cn.edu.sjtu.stap.autolog.dataflow.rd.A)>";
-	private static String PROC3 = "<cn.edu.sjtu.stap.autolog.dataflow.rd.ExampleChpFive5withAlias: void proc3(cn.edu.sjtu.stap.autolog.dataflow.rd.A)>";
+	private static String PROC1 = "<cn.edu.sjtu.stap.dataflow.rd.ExampleChpFive5withAlias: void proc1()>";
+	private static String PROC2 = "<cn.edu.sjtu.stap.dataflow.rd.ExampleChpFive5withAlias: void proc2(cn.edu.sjtu.stap.dataflow.rd.A)>";
+	private static String PROC3 = "<cn.edu.sjtu.stap.dataflow.rd.ExampleChpFive5withAlias: void proc3(cn.edu.sjtu.stap.dataflow.rd.A)>";
 	private static String EVA = "<org.apache.commons.math.stat.descriptive.moment.Variance: double evaluate(double[],double[],double,int,int)>";
 	
 	/**
@@ -71,8 +71,12 @@ public class TestRDTransformer extends SceneTransformer {
 		if( df == null ) {
 			throw new RuntimeException("ERROR: definition finder undefined");
 		}
+		//this.initInput();
+		methodList = new ArrayList<String>();
+		lineNumList = new ArrayList<Integer>();
+		methodList.add(AnalysisConfig.getInstance().getMethodSig());
+		lineNumList.add(AnalysisConfig.getInstance().getLineNum());
 		
-		this.initInput();
 		SootClass sclass = Scene.v().getMainClass();
 		SootClass target = Scene.v().getSootClass("org.apache.commons.math.stat.descriptive.moment.Variance");
 		target.setApplicationClass();

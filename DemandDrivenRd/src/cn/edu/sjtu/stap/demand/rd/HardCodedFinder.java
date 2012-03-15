@@ -19,15 +19,15 @@ public class HardCodedFinder implements DefinitionFinder {
 		methodList = new ArrayList<String>();
 		lineNumList = new ArrayList<Integer>();
 		
-		methodList.add("<cn.edu.sjtu.stap.autolog.dataflow.rd.ExampleChpFive5withAlias: void proc1()>");
+		methodList.add("<cn.edu.sjtu.stap.dataflow.rd.ExampleChpFive5withAlias: void proc1()>");
 		lineNumList.add(18);
-//		methodList.add("<cn.edu.sjtu.stap.autolog.dataflow.rd.ExampleChpFive5withAlias: void proc1()>");
+//		methodList.add("<cn.edu.sjtu.stap.dataflow.rd.ExampleChpFive5withAlias: void proc1()>");
 //		lineNumList.add(19);
-//		methodList.add("<cn.edu.sjtu.stap.autolog.dataflow.rd.ExampleChpFive5withAlias: void proc1()>");
+//		methodList.add("<cn.edu.sjtu.stap.dataflow.rd.ExampleChpFive5withAlias: void proc1()>");
 //		lineNumList.add(25);
-//		methodList.add("<cn.edu.sjtu.stap.autolog.dataflow.rd.ExampleChpFive5withAlias: void proc3(cn.edu.sjtu.stap.autolog.dataflow.rd.A)>");
+//		methodList.add("<cn.edu.sjtu.stap.dataflow.rd.ExampleChpFive5withAlias: void proc3(cn.edu.sjtu.stap.dataflow.rd.A)>");
 //		lineNumList.add(40);
-//		methodList.add("<cn.edu.sjtu.stap.autolog.dataflow.rd.ApacheMathTest: void main(java.lang.String[])>");
+//		methodList.add("<cn.edu.sjtu.stap.dataflow.rd.ApacheMathTest: void main(java.lang.String[])>");
 //		lineNumList.add(8);
 	}
 	@Override

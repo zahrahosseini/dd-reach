@@ -79,7 +79,7 @@ public class RdSystemTool {
 					
 				}
 			}else{
-				throw new RuntimeException("The call site unit must be an instance of InvokeStmt.");
+				throw new RuntimeException("The call site unit must be an instance of InvokeStmt:"+csUnit.toString());
 			}
 		}else{
 			/*
@@ -286,6 +286,7 @@ public class RdSystemTool {
 		RdProgramPoint result = null;
 		int line = 0;
 		for( Unit u : body.getUnits() ) {
+			
 			int lineNumInt = Integer.parseInt(lineNum);
 			LineNumberTag tag = (LineNumberTag)u.getTag("LineNumberTag");
 			if( tag != null ) {

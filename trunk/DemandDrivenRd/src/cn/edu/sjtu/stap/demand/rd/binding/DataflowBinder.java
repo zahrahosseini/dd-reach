@@ -232,7 +232,7 @@ public class DataflowBinder {
 	public static Set<RdValue> forwardBindingForQueryValue(SootMethod srcMethod,
 			RdValue srcValue, SootMethod startMethod) {
 		Set<RdValue> startValues = new HashSet<RdValue>();
-		
+		System.out.println("start binding: "+srcValue+"  "+startMethod+"->"+srcMethod);
 		// if the source method is the same one as the query-starting method,
 		// no binding is necessary, just use the original variable name.
 		if( srcMethod.equals(startMethod) ) {

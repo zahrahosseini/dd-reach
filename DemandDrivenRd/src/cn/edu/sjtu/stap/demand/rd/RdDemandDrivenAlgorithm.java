@@ -30,6 +30,7 @@ public class RdDemandDrivenAlgorithm {
 	}
 	
 	public boolean QueryGenKill( RdProgramPoint definition, RdProgramPoint startPoint, RdValue startValue ) {
+		System.out.println("in Query Gen"+definition+", "+startValue);
 		this.worklist = new HashSet<Pair<RdValue,RdProgramPoint>>();
 		this.query = new HashMap<RdProgramPoint,Set<RdValue>>();
 		this.targetDef = definition;
@@ -43,7 +44,7 @@ public class RdDemandDrivenAlgorithm {
 			worklist.remove(pair);
 			RdValue y = pair.data1; // value
 			RdProgramPoint m = pair.data2; // program point
-			
+			System.out.println(pair);
 			if( RdSystemTool.v().isMainEntry(m) ) {
 				Set<RdValue> vs = getQuery(m);
 				if( !vs.isEmpty() ) {

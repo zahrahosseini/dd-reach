@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 import soot.Body;
+import soot.Local;
 import soot.Value;
 import soot.Scene;
 import soot.SceneTransformer;
@@ -14,6 +15,7 @@ import soot.SootClass;
 import soot.SootField;
 import soot.SootMethod;
 import soot.Unit;
+import soot.jimple.InvokeStmt;
 import soot.jimple.toolkits.callgraph.CallGraph;
 import soot.jimple.toolkits.callgraph.Edge;
 import soot.tagkit.LineNumberTag;
@@ -78,8 +80,8 @@ public class TestRDTransformer extends SceneTransformer {
 		lineNumList.add(AnalysisConfig.getInstance().getLineNum());
 		
 		SootClass sclass = Scene.v().getMainClass();
-		SootClass target = Scene.v().getSootClass("org.apache.commons.math.stat.descriptive.moment.Variance");
-		target.setApplicationClass();
+//		SootClass target = Scene.v().getSootClass("org.apache.commons.math.stat.descriptive.moment.Variance");
+//		target.setApplicationClass();
 		// Step 0. prepare and create the common entities to be used
 	
 		CallGraph cg = Scene.v().getCallGraph();
@@ -98,7 +100,10 @@ public class TestRDTransformer extends SceneTransformer {
 	    	Edge e = edgeReader.next();
 	    	Unit csUnit = e.srcUnit();
 	    	SootMethod callee = e.tgt();
-	    	if(csUnit != null && callee != null && callee.getDeclaringClass().isApplicationClass()){
+	    	if(csUnit != null 
+	    			&& csUnit instanceof InvokeStmt 
+	    			&& callee != null 
+	    			&& callee.getDeclaringClass().isApplicationClass()){
 	    		RdSystemTool.v().addParamBinding(csUnit, callee, e.src());
 	    	}
 	    }
@@ -110,6 +115,7 @@ public class TestRDTransformer extends SceneTransformer {
 		
 		// Step 2. generate the query 
 		// get the start program point
+		
 		for( int i = 0; i < this.methodList.size(); i++ ) {
 			String methodSig = this.methodList.get(i);
 			int line = this.lineNumList.get(i);
@@ -119,21 +125,32 @@ public class TestRDTransformer extends SceneTransformer {
 			RdProgramPoint startPoint = RdSystemTool.v().getProgramPoint(line+"", startMethod);
 			
 			// find the definitions may reach the start point in program
-			List<RdProgramPoint> definitions = this.df.findDefinitinos(startPoint,null);
+			RdValue startValue = null;
+			for( Local local : startMethod.getActiveBody().getLocals() ) {
+				if( local.getName().equals(AnalysisConfig.getInstance().getVarName()) ) {
+					startValue = new RdValue(local,startMethod);
+					break;
+				}
+			}
 			
+			List<RdProgramPoint> definitions = this.df.findDefinitinos(startPoint,startValue);
+			//System.out.println(definitions);
 			// Step 3. use the algorithms to propagate the query
 			Set<RdValue> queryDefs = null;
 			System.out.println("Reachability to " + startPoint.getUnit()+": ");
 			for( RdProgramPoint def : definitions ) {
+				System.out.println(def.getUnit());
 				Value srcValue = def.getUnit().getDefBoxes().get(0).getValue();
 				queryDefs = DataflowBinder.forwardBindingForQueryValue(def.getMethod(), new RdValue(srcValue,def.getMethod()), startMethod);
 				
 				boolean queryResult = false;
 				for( RdValue v : queryDefs ) {
+					System.out.println(v);
 					RdDemandDrivenAlgorithm algorithm = new RdDemandDrivenAlgorithm();
+					System.out.println("wutingfang");
 					queryResult |= algorithm.QueryGenKill(def, startPoint,v);
 				}
-				System.out.println(def.getUnit() + ": " + queryResult);
+				System.out.println(": " + queryResult);
 			}
 			System.out.println("==========================================================================");
 		}

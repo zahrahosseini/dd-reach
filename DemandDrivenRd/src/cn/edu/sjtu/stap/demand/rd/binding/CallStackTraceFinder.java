@@ -24,6 +24,8 @@ import soot.jimple.toolkits.callgraph.Edge;
  */
 public class CallStackTraceFinder {
 	public static List<CallStackTrace> getCallStackTraces(CallGraph cg, SootMethod src, SootMethod tgt){
+		
+		System.out.println("Call:get call stack trace:"+src+" -> "+tgt);
 		List<CallStackTrace> traceList = new ArrayList<CallStackTrace>();
 		
 		Set<SootMethod> commonAncestors = findCommonAncestors(cg, src, tgt); 
@@ -64,7 +66,8 @@ public class CallStackTraceFinder {
 	
 	public static  void findAllChainsBetweenNodes(CallGraph cg,
 			SootMethod src, SootMethod tgt, Edge e, List<Edge> tmpPath, Set<List<Edge>> allCallChains) {
-		   if( src == null || tgt == null ){
+		System.out.println("find all chain between Node:" +src+" -> "+tgt );   
+		if( src == null || tgt == null ){
 			   System.err.println("Error: end nodes should never be null.");
 			   return;
 		   }
@@ -99,6 +102,7 @@ public class CallStackTraceFinder {
 		   while(currentOutEdges.hasNext()){
 			   Edge outEdge = currentOutEdges.next();
 			   findAllChainsBetweenNodes(cg, outEdge.tgt(), tgt, outEdge, tmpPath, allCallChains);
+			   System.out.println("Return: "+outEdge.tgt()+" -> "+tgt);
 		   }
 		   
 		   // unmark this node again

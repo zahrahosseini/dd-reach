@@ -3,6 +3,7 @@ package cn.edu.sjtu.stap.demand.rd;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.edu.sjtu.stap.AnalysisConfig;
 import cn.edu.sjtu.stap.demand.rd.alias.AliasTool;
 import soot.SootMethod;
 import soot.Unit;
@@ -121,8 +122,19 @@ public class RdProgramPoint {
 			Value v1 = vb.getValue();
 			Value v2 = value.getValue();
 			// TODO: find better solution to check equality of values/variables in Jimple!
+			
+			boolean mustAlias = false;
+			switch( AnalysisConfig.getInstance().getAliasFinderType() ) {
+				case AnalysisConfig.ALIASTYPE_LOCAL:
+					mustAlias = AliasTool.v().mustAlias(this, new RdValue(v1,this._method), value);
+					break;
+				case AnalysisConfig.ALIASTYPE_OFF:
+					mustAlias = false;
+					break;
+			}
+			
 			if(v1.toString().equals(v2.toString())
-					|| AliasTool.v().mustAlias(this, new RdValue(v1,this._method), value) ){ // check aliases 
+					|| mustAlias ){ // check aliases 
 				
 				if( this.equals(def) ) { // the same value, the same statement
 					killed = false;

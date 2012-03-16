@@ -85,9 +85,13 @@ public class AnalysisConfig {
 	public int getAliasFinderType() {
 		return aliasFinderType;
 	}
-
+	
+	public static final int ALIASTYPE_OFF = 0;
+	public static final int ALIASTYPE_LOCAL = 1;
+	
 	public void setAliasFinderType(int aliasFinderType) {
 		this.aliasFinderType = aliasFinderType;
 	}
+	
 	
 }

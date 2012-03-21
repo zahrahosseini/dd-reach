@@ -55,7 +55,7 @@ public class CommandLineAnalysisDriver {
 	    		"-cp",
 	    		"velocity-1.7.jar:velocity-1.7-dep.jar:antlr-2.7.5.jar:avalon-logkit-2.1.jar:commons-collections-3.2.1.jar:commons-lang-2.4.jar:commons-logging-1.1.jar:hsqldb-1.7.1.jar:jdom-1.0.jar:junit-3.8.1.jar:log4j-1.2.12.jar:maven-ant-tasks-2.0.9.jar:oro-2.0.8.jar:servletapi-2.3.jar:werken-xpath-0.9.4.jar:ant.jar:ant-launcher.jar:./velocity_main/",
 	    		"-include",
-	    		"org.apache.",
+	    		"org.apache.velocity.",
 	    		"-process-dir",
 	    		"velocity-1.7.jar",
 	    		"-process-dir",

@@ -6,6 +6,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import cn.edu.sjtu.stap.tool.CallGraphDumper;
+
 import soot.SootMethod;
 import soot.jimple.toolkits.callgraph.CallGraph;
 import soot.jimple.toolkits.callgraph.Edge;
@@ -101,6 +103,7 @@ public class CallStackTraceFinder {
 		   Iterator<Edge> currentOutEdges = cg.edgesOutOf(src);
 		   while(currentOutEdges.hasNext()){
 			   Edge outEdge = currentOutEdges.next();
+			   CallGraphDumper.v().exploreEdge(outEdge);
 			   findAllChainsBetweenNodes(cg, outEdge.tgt(), tgt, outEdge, tmpPath, allCallChains);
 			   System.out.println("Return: "+outEdge.tgt()+" -> "+tgt);
 		   }

@@ -1,5 +1,9 @@
 package cn.edu.sjtu.stap.demand.rd;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -22,6 +26,7 @@ import soot.tagkit.LineNumberTag;
 import soot.util.Chain;
 import soot.util.queue.QueueReader;
 import cn.edu.sjtu.stap.AnalysisConfig;
+import cn.edu.sjtu.stap.tool.CallGraphDumper;
 import cn.edu.sjtu.stap.tool.Debug;
 import cn.edu.sjtu.stap.demand.rd.binding.DataflowBinder;
 
@@ -85,6 +90,16 @@ public class TestRDTransformer extends SceneTransformer {
 		// Step 0. prepare and create the common entities to be used
 	
 		CallGraph cg = Scene.v().getCallGraph();
+		CallGraphDumper dumper = CallGraphDumper.v();
+		dumper.init(cg, "callgraph");
+		
+		// dump call graph
+//		try {
+//			PrintStream ps=new PrintStream(new FileOutputStream("callgraph"));
+//			ps.println(cg.toString());
+//		} catch (FileNotFoundException e1) {
+//			e1.printStackTrace();
+//		}
 		RdSystemTool.v().setCallGraph(cg);
 		// Step 1. get the necessary binding info
 		// Build the bindings
@@ -100,10 +115,12 @@ public class TestRDTransformer extends SceneTransformer {
 	    	Edge e = edgeReader.next();
 	    	Unit csUnit = e.srcUnit();
 	    	SootMethod callee = e.tgt();
+	    	SootMethod caller = e.src();
 	    	if(csUnit != null 
 	    			&& csUnit instanceof InvokeStmt 
 	    			&& callee != null 
-	    			&& callee.getDeclaringClass().isApplicationClass()){
+	    			&& callee.getDeclaringClass().isApplicationClass()
+	    			&& caller.getDeclaringClass().isApplicationClass()){
 	    		RdSystemTool.v().addParamBinding(csUnit, callee, e.src());
 	    	}
 	    }

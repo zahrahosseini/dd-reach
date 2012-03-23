@@ -46,7 +46,7 @@ public class CommandLineAnalysisDriver {
 	    		mainClass,
 	    		"-pp",
 	    		"-w",
-	    		"-app",
+//	    		"-app",
 	    		"-p",
 	    		"jb",
 	    		"use-original-names:false",

@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import cn.edu.sjtu.stap.demand.rd.binding.CallStackTraceFinder;
+
 import soot.SootMethod;
 import soot.jimple.toolkits.callgraph.CallGraph;
 import soot.jimple.toolkits.callgraph.Edge;
@@ -75,7 +77,7 @@ public class CallGraphDumper {
 			tgtIndex = this.addMethod(tgt);
 		}
 		
-		ps.println(srcIndex + " -> " + tgtIndex);
+		ps.println(CallStackTraceFinder.DEPTH+" : "+srcIndex + " -> " + tgtIndex);
 		edgeCounter++;
 		
 //		if( !edgeSet.contains(e) ) {

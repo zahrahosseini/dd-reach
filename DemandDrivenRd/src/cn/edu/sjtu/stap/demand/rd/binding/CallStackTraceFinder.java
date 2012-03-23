@@ -66,9 +66,12 @@ public class CallStackTraceFinder {
 		return ancestorsOfSrc;
 	}
 	
+	public static int DEPTH = 0;
+	
 	public static  void findAllChainsBetweenNodes(CallGraph cg,
 			SootMethod src, SootMethod tgt, Edge e, List<Edge> tmpPath, Set<List<Edge>> allCallChains) {
-		System.out.println("find all chain between Node:" +src+" -> "+tgt );   
+		System.out.println("find all chain between Node:" +src+" -> "+tgt ); 
+		DEPTH++;
 		if( src == null || tgt == null ){
 			   System.err.println("Error: end nodes should never be null.");
 			   return;
@@ -103,10 +106,10 @@ public class CallStackTraceFinder {
 		   Iterator<Edge> currentOutEdges = cg.edgesOutOf(src);
 		   while(currentOutEdges.hasNext()){
 			   Edge outEdge = currentOutEdges.next();
-			   CallGraphDumper.v().exploreEdge(outEdge);
 			   if( outEdge.tgt().getDeclaringClass().isApplicationClass() ) {
+				   CallGraphDumper.v().exploreEdge(outEdge);
 				   findAllChainsBetweenNodes(cg, outEdge.tgt(), tgt, outEdge, tmpPath, allCallChains);
-				   System.out.println("Return: "+outEdge.tgt()+" -> "+tgt);
+				   DEPTH--;
 			   }
 		   }
 		   

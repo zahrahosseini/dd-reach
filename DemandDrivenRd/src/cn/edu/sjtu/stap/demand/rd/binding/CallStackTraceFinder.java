@@ -104,8 +104,10 @@ public class CallStackTraceFinder {
 		   while(currentOutEdges.hasNext()){
 			   Edge outEdge = currentOutEdges.next();
 			   CallGraphDumper.v().exploreEdge(outEdge);
-			   findAllChainsBetweenNodes(cg, outEdge.tgt(), tgt, outEdge, tmpPath, allCallChains);
-			   System.out.println("Return: "+outEdge.tgt()+" -> "+tgt);
+			   if( outEdge.tgt().getDeclaringClass().isApplicationClass() ) {
+				   findAllChainsBetweenNodes(cg, outEdge.tgt(), tgt, outEdge, tmpPath, allCallChains);
+				   System.out.println("Return: "+outEdge.tgt()+" -> "+tgt);
+			   }
 		   }
 		   
 		   // unmark this node again

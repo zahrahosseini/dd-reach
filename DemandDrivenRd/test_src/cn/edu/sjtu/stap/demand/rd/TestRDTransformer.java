@@ -164,7 +164,6 @@ public class TestRDTransformer extends SceneTransformer {
 				for( RdValue v : queryDefs ) {
 					System.out.println(v);
 					RdDemandDrivenAlgorithm algorithm = new RdDemandDrivenAlgorithm();
-					System.out.println("wutingfang");
 					queryResult |= algorithm.QueryGenKill(def, startPoint,v);
 				}
 				System.out.println(": " + queryResult);

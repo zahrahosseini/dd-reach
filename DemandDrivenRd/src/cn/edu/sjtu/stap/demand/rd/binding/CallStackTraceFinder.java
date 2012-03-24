@@ -92,7 +92,7 @@ public class CallStackTraceFinder {
 		   }
 
 		   // check if we've been here before (no cycles in path)
-		   if (isContainedInEdgeList(tmpPath, e))
+		   if (isNodeContainedInPath(tmpPath, e))
 		      return;
 
 		   // bookkeeping: mark the fromNode as visited
@@ -106,10 +106,13 @@ public class CallStackTraceFinder {
 		   Iterator<Edge> currentOutEdges = cg.edgesOutOf(src);
 		   while(currentOutEdges.hasNext()){
 			   Edge outEdge = currentOutEdges.next();
+			   
 			   if( outEdge.tgt().getDeclaringClass().isApplicationClass() ) {
-				   CallGraphDumper.v().exploreEdge(outEdge);
-				   findAllChainsBetweenNodes(cg, outEdge.tgt(), tgt, outEdge, tmpPath, allCallChains);
-				   DEPTH--;
+				   if(!outEdge.tgt().getSignature().contains("<clinit>") && !outEdge.tgt().getSignature().contains("<init>")){
+					    CallGraphDumper.v().exploreEdge(outEdge);
+				   		findAllChainsBetweenNodes(cg, outEdge.tgt(), tgt, outEdge, tmpPath, allCallChains);
+				   		DEPTH--;
+				   }
 			   }
 		   }
 		   
@@ -127,6 +130,30 @@ public class CallStackTraceFinder {
 				break;
 			}
 		}
+		return isContained;
+	}
+	
+	private static boolean isNodeContainedInPath(List<Edge> eList, Edge edge){
+		if(edge == null) return false;
+		
+		boolean isContained = false;
+		SootMethod newNode = edge.tgt();
+		
+		for(int i = 0; i < eList.size(); i++){
+			Edge e = eList.get(i);
+			if(i == 0){ // we have to consider both tgt and src of the first edge
+				if(e.tgt().equals(newNode) || e.src().equals(newNode)){
+					isContained = true;
+					break;
+				}
+			}else{ // we just consider the tgt of other edges
+				if(e.tgt().equals(newNode)){
+					isContained = true;
+					break;
+				}
+			}
+		}
+		
 		return isContained;
 	}
 
